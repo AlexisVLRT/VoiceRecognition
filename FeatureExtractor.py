@@ -69,7 +69,7 @@ def extract_features(sample_path):
                        extent=[0, signal_length / sample_rate, 0, sample_rate / 2000])
         # axes[1].imshow(np.flipud(mfcc_norm.T), cmap='jet', aspect='auto', extent=[0, num_ceps, 0, sample_rate / 2000])
 
-    return filter_banks_norm, mfcc_norm
+    return filter_banks_norm.flatten(), mfcc_norm.flatten()
 
 
 if __name__ == "__main__":
