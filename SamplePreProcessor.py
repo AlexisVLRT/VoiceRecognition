@@ -15,9 +15,11 @@ def pre_process(sample_rate, signal):
     trimmed_signal = np.clip(abs(normalized_signal), 0, std + avg)
     corrected_signal = trimmed_signal ** 2 / np.nanmax(trimmed_signal)
 
-    # Find where the start and end of the speech are
+    # Find where the start of the speech is
     envelope = pd.rolling_std(corrected_signal, window) ** 2 / np.nanmax(pd.rolling_std(corrected_signal, window))
-    start, end = np.nanmin(np.where(envelope-0.01 > 0)), np.nanmax(np.where(envelope-0.01 > 0))
+    start = np.nanmin(np.where(envelope-0.01 > 0))
+
+    end = start + 30000
 
     # Retrieve it in the original sample
     actual_sample = normalized_signal[start-window:end+window]
@@ -34,6 +36,6 @@ def pre_process(sample_rate, signal):
 
 if __name__ == "__main__":
     fig, axes = plt.subplots(3, 1)
-    sample_rate, signal = wavfile.read('Datasets//Lys//enreg-01.wav')
+    sample_rate, signal = wavfile.read('Datasets//Alex//enreg-02.wav')
     pre_process(sample_rate, signal)
     plt.show()
