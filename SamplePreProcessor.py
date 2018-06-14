@@ -20,6 +20,8 @@ def pre_process(sample_rate, signal):
     start = np.nanmin(np.where(envelope-0.01 > 0))
 
     end = start + 30000
+    if end + window > len(normalized_signal):
+        np.pad(normalized_signal, (0, end + window - len(normalized_signal)), 'constant', constant_values=(0, ))
 
     # Retrieve it in the original sample
     actual_sample = normalized_signal[start-window:end+window]
@@ -36,6 +38,9 @@ def pre_process(sample_rate, signal):
 
 if __name__ == "__main__":
     fig, axes = plt.subplots(3, 1)
-    sample_rate, signal = wavfile.read('Datasets//Alex//enreg-02.wav')
+    sample_rate, signal = wavfile.read('Datasets//Test//ilu.wav')
+    print(sample_rate)
+    if type(signal[0]) is np.ndarray:
+        signal = [sample[0] for sample in signal]
     pre_process(sample_rate, signal)
     plt.show()

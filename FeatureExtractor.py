@@ -7,6 +7,9 @@ from SamplePreProcessor import pre_process
 
 def extract_features(sample_path):
     sample_rate, signal = wavfile.read(sample_path)
+    if type(signal[0]) is np.ndarray:
+        signal = [sample[0] for sample in signal]
+
     signal = pre_process(sample_rate, signal)
 
     frame_size = 0.025  # 25 ms
@@ -73,7 +76,9 @@ def extract_features(sample_path):
 
 
 if __name__ == "__main__":
-    for i in range(5):
+    for i in range(1):
         fig, axes = plt.subplots(1, 2)
-        extract_features("Datasets//Lys/enreg-0{}.wav".format(i+1))
+        # extract_features("Datasets//Test//Test1-Alex.wav".format(i+1))
+        extract_features("Datasets//Test//ilu.wav".format(i + 1))
+
     plt.show()
